@@ -19,6 +19,9 @@
 			strong {
 				color: #0056b3;
 			}
+			.p {
+				text-align: start;
+			}
 			.cover {
 				text-align: center;
 				margin-bottom: 20px;
@@ -469,7 +472,10 @@
 					calculateResult() // Вызываем расчет результата после последнего вопроса
 				}
 			}
-
+			function view() {
+				document.getElementById('info').style.display = 'block'
+				document.getElementById('view_btn').style.display = 'none'
+			}
 			function calculateResult() {
 				let scores = {
 					secure: 0,
@@ -524,44 +530,104 @@
 					: 0
 
 				// Отображение результатов
-				let resultText = ` 
-           <strong>Надежная привязанность:</strong> ${secureScore.toFixed(
-							2
-						)}<br> 
-           <strong>Озабоченная (тревожная) привязанность:</strong> ${anxiousScore.toFixed(
-							2
-						)}<br> 
-           <strong>Избегающе-отвергающая привязанность:</strong> ${avoidantScore.toFixed(
-							2
-						)}<br> 
-           <strong>Тревожно-избегающая привязанность:</strong> ${fearfulScore.toFixed(
-							2
-						)}<br> <br>
-						<p style="text-align: start">
-					<strong>- Надёжная привязанность:</strong> Если у вас надёжная
-					привязанность, вы обычно чувствуете себя комфортно в отношениях,
-					умеете доверять, легко идёте на близость и справляетесь с конфликтами.
-					Вам важно поддерживать связь, но вы при этом уважаете личные границы —
-					свои и партнёра. <br />
-					<strong>- Тревожная привязанность:</strong> Если у вас тревожная
-					привязанность, вы часто беспокоитесь о том, как партнёр к вам
-					относится, нуждаетесь в постоянном подтверждении его чувств и боитесь
-					быть брошенными. Ваши эмоции могут быть интенсивными, и вы склонны
-					искать много внимания и поддержки. <br />
-					<strong>- Избегающая привязанность:</strong> Если у вас избегающее
-					поведение, вам может быть трудно делиться эмоциями и вы цените
-					независимость. Иногда вы дистанцируетесь от партнёра, чтобы сохранить
-					ощущение контроля, и стараетесь не показывать уязвимость, даже если
-					отношения для вас важны. <br />
-					<strong>- Дезорганизованная привязанность:</strong> Если у вас
-					дезорганизованная привязанность, отношения могут вызывать у вас
-					противоречивые чувства — вы хотите близости, но боитесь её. Ваша
-					реакция на близость может быть непредсказуемой, и вам бывает трудно
-					сохранять устойчивость и спокойствие рядом с партнёром. <br />
-				</p>
+				let resultText = `
+			        <strong>Надежная привязанность:</strong> ${secureScore.toFixed(2)}<br>
+			        <strong>Озабоченная (тревожная) привязанность:</strong> ${anxiousScore.toFixed(
+								2
+							)}<br>
+			        <strong>Избегающе-отвергающая привязанность:</strong> ${avoidantScore.toFixed(
+								2
+							)}<br>
+			        <strong>Тревожно-избегающая привязанность:</strong> ${fearfulScore.toFixed(
+								2
+							)}<br> <br>
 						`
 
 				document.getElementById('resultText').innerHTML = resultText // Отображение текста результата
+				if (
+					secureScore > 3 &&
+					anxiousScore > 3 &&
+					avoidantScore > 3 &&
+					fearfulScore > 3
+				) {
+					document.getElementById(
+						'resultText'
+					).innerHTML += `	<p style="text-align: start">
+					Вы заходите по четырем типам привязанности:
+					<strong> <br />
+					1) Надежная привязанность <br>
+					2) Озабоченная (тревожная) привязанность <br />
+					3) Избегающе-отвергающая привязанность <br />
+					4) Тревожно-избегающая привязанность. <br />
+					</strong>
+					</p>`
+				} else if (secureScore > 3) {
+					document.getElementById(
+						'resultText'
+					).innerHTML += `<p>У вас надёжная привязанность, вы обычно чувствуете себя комфортно в отношениях, умеете доверять, легко идёте на близость и справляетесь с конфликтами. Вам важно поддерживать связь, но вы при этом уважаете личные границы — свои и партнёра.</p>`
+				} else if (anxiousScore > 3) {
+					document.getElementById(
+						'resultText'
+					).innerHTML += `<p>У вас тревожная привязанность, вы часто беспокоитесь о том, как партнёр к вам относится, нуждаетесь в постоянном подтверждении его чувств и боитесь быть брошенными. Ваши эмоции могут быть интенсивными, и вы склонны искать много внимания и поддержки.</p>`
+				} else if (avoidantScore > 3) {
+					document.getElementById(
+						'resultText'
+					).innerHTML += `<p>У вас избегающее поведение, вам может быть трудно делиться эмоциями и вы цените независимость. Иногда вы дистанцируетесь от партнёра, чтобы сохранить ощущение контроля, и стараетесь не показывать уязвимость, даже если отношения для вас важны.</p>`
+				} else if (fearfulScore > 3) {
+					document.getElementById(
+						'resultText'
+					).innerHTML += `<p>У вас дезорганизованная привязанность, отношения могут вызывать у вас противоречивые чувства — вы хотите близости, но боитесь её. Ваша реакция на близость может быть непредсказуемой, и вам бывает трудно сохранять устойчивость и спокойствие рядом с партнёром.</p>`
+				} else if (secureScore > 3 && anxiousScore > 3) {
+					document.getElementById(
+						'resultText'
+					).innerHTML += `<p>У вас надёжная и тревожная привязанность</p>`
+				} else if (secureScore > 3 && avoidantScore > 3) {
+					document.getElementById(
+						'resultText'
+					).innerHTML += `<p>У вас надёжная и избегающая привязанность</p>`
+				} else if (secureScore > 3 && fearfulScore > 3) {
+					document.getElementById(
+						'resultText'
+					).innerHTML += `<p>У вас надёжная и дезорганизованная привязанность</p>`
+				} else if (anxiousScore > 3 && avoidantScore > 3) {
+					document.getElementById(
+						'resultText'
+					).innerHTML += `<p>У вас тревожная и избегающая привязанность</p>`
+				} else if (anxiousScore > 3 && fearfulScore > 3) {
+					document.getElementById(
+						'resultText'
+					).innerHTML += `<p>У вас избегающая и дезорганизованная привязанность</p>`
+				} else if (avoidantScore > 3 && fearfulScore > 3) {
+					document.getElementById(
+						'resultText'
+					).innerHTML += `<p>У вас тревожная и дезорганизованная привязанность</p>`
+				} else if (secureScore > 3 && anxiousScore > 3 && avoidantScore > 3) {
+					document.getElementById(
+						'resultText'
+					).innerHTML += `<p>У вас надёжная, тревожная и избегающая привязанность</p>`
+				} else if (secureScore > 3 && anxiousScore > 3 && fearfulScore > 3) {
+					document.getElementById(
+						'resultText'
+					).innerHTML += `<p>У вас надёжная, тревожная и дезорганизованная привязанность</p>`
+				} else if (anxiousScore > 3 && avoidantScore > 3 && fearfulScore > 3) {
+					document.getElementById(
+						'resultText'
+					).innerHTML += `<p>У вас тревожная, избегающая и дезорганизованная привязанность</p>`
+				} else if (secureScore > 3 && avoidantScore > 3 && fearfulScore > 3) {
+					document.getElementById(
+						'resultText'
+					).innerHTML += `<p>У вас надёжная, избегающая и дезорганизованная привязанность</p>`
+				}
+				document.getElementById(
+					'resultText'
+				).innerHTML += `<button class="button" id="view_btn" onclick="view()">Узнать о привязанностях</button>`
+				document.getElementById(
+					'resultText'
+				).innerHTML += ` <div id="info" style="display: none"><p class="p"> <strong>- Надёжная привязанность:</strong> Если у вас надёжная привязанность, вы обычно чувствуете себя комфортно в отношениях, умеете доверять, легко идёте на близость и справляетесь с конфликтами. Вам важно поддерживать связь, но вы при этом уважаете личные границы — свои и партнёра.<p>
+				<p class="p"><strong>- Тревожная привязанность:</strong> Если у вас тревожная привязанность, вы часто беспокоитесь о том, как партнёр к вам относится, нуждаетесь в постоянном подтверждении его чувств и боитесь быть брошенными. Ваши эмоции могут быть интенсивными, и вы склонны искать много внимания и поддержки.</p>
+				<p class="p"> <strong>- Избегающая привязанность:</strong> Если у вас избегающее поведение, вам может быть трудно делиться эмоциями и вы цените независимость. Иногда вы дистанцируетесь от партнёра, чтобы сохранить ощущение контроля, и стараетесь не показывать уязвимость, даже если отношения для вас важны.</p>
+				<p class="p"> <strong>- Дезорганизованная привязанность:</strong> Если у вас дезорганизованная привязанность, отношения могут вызывать у вас противоречивые чувства — вы хотите близости, но боитесь её. Ваша реакция на близость может быть непредсказуемой, и вам бывает трудно сохранять устойчивость и спокойствие рядом с партнёром.</p></div>
+					`
 				document.getElementById('result').style.display = 'block' // Показываем блок с результатом
 				document.getElementById('quiz').style.display = 'none' // Скрываем опрос
 			}
